@@ -1,0 +1,25 @@
+//summary data for date and gh
+
+SELECT 
+COUNT(*) as cnt,
+AVG(temperature) as temperature ,
+AVG(light) as light,
+AVG(pressure) as pressure,
+AVG(humidity) as humidity,
+AVG(ph) as ph,
+AVG(soil_moisture) as soil_moisture
+FROM data
+WHERE dat_id IN(
+    SELECT dat_id FROM data
+    WHERE dat_logtime LIKE '2018%' 
+    AND
+	dev_id IN(
+        SELECT dev_id 
+        FROM devices
+        WHERE gh_id IN(
+        	SELECT gh_id 
+            FROM greenhouse
+            WHERE name='enim'
+        )
+    )
+)
