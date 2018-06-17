@@ -31,7 +31,7 @@ public class RemoteBackup {
     private static Connection conn;
 
     private RemoteBackup() throws ClassNotFoundException, SQLException, FileNotFoundException, IOException {
-        input = new FileInputStream(".\\resources\\db_config.properties");
+        input = new FileInputStream("./resources/db_config.properties");
         prop = new Properties();
         prop.load(input);
         System.out.println("remote_db_server :" + prop.getProperty("db_server"));

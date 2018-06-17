@@ -28,7 +28,7 @@ public class RemoteDatabaseConnection {
     private final Connection conn;
 
     private RemoteDatabaseConnection() throws ClassNotFoundException, SQLException, FileNotFoundException, IOException {
-        input = new FileInputStream(".\\resources\\db_config.properties");
+        input = new FileInputStream("./resources/db_config.properties");
         prop = new Properties();
         prop.load(input);
         System.out.println("remote_db_server :" + prop.getProperty("remote_db_server"));

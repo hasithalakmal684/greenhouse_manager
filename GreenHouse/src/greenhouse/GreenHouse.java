@@ -13,11 +13,9 @@ import greenhouse.listener.SerialPortConnection;
 import greenhouse.listener.SerialReader;
 import greenhouse.view.LoginForm;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -47,11 +45,11 @@ public class GreenHouse extends Thread {
      * @throws javax.swing.UnsupportedLookAndFeelException
      */
     public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException {
-//        URL url = ClassLoader.getSystemResource(".\\images\\app.png");
+//        URL url = ClassLoader.getSystemResource("./images/app.ico");
 //        Toolkit kit = Toolkit.getDefaultToolkit();
 //        app_icon = kit.createImage(url);
         
-        app_icon = ImageIO.read(new File(".\\images\\app.png")).getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+        app_icon = ImageIO.read(new File("./images/app.png")).getScaledInstance(24, 24, Image.SCALE_SMOOTH);
         
         UIManager.setLookAndFeel(new AcrylLookAndFeel());
         GreenHouse gh = new GreenHouse();

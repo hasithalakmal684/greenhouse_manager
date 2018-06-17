@@ -19,7 +19,7 @@ public class ServiceCheck {
     public static void main(String[] args) {
         try {
             String line;
-            Process p = Runtime.getRuntime().exec(System.getenv("windir") + "\\system32\\" + "tasklist.exe");
+            Process p = Runtime.getRuntime().exec(System.getenv("windir") + "/system32/" + "tasklist.exe");
             BufferedReader input
                     = new BufferedReader(new InputStreamReader(p.getInputStream()));
             LinkedList<String> list = new LinkedList<>();
