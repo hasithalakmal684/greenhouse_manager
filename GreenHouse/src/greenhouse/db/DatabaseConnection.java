@@ -26,7 +26,7 @@ public class DatabaseConnection {
     private final Connection conn;
 
     private DatabaseConnection() throws ClassNotFoundException, SQLException, FileNotFoundException, IOException {
-        input = new FileInputStream(".\\src\\greenhouse\\resources\\db_config.properties");
+        input = new FileInputStream(".\\resources\\db_config.properties");
         prop = new Properties();
         prop.load(input);
         System.out.println("db_server :" + prop.getProperty("db_server"));

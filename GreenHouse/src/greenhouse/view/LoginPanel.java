@@ -50,8 +50,8 @@ public class LoginPanel extends javax.swing.JPanel {
 
         emailValidityLabel.setSize(24, 24);
         try {
-            correctImg = ImageIO.read(new File(".\\src\\greenhouse\\images\\correct.gif"));
-            wrongImg = ImageIO.read(new File(".\\src\\greenhouse\\images\\wrong.png"));
+            correctImg = ImageIO.read(new File(".\\images\\correct.gif"));
+            wrongImg = ImageIO.read(new File(".\\images\\wrong.png"));
             correctIcon = new ImageIcon(correctImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
             wrongIcon = new ImageIcon(wrongImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
         } catch (IOException ex) {

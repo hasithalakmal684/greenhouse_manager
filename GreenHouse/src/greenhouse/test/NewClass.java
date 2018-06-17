@@ -5,6 +5,7 @@
  */
 package greenhouse.test;
 
+import greenhouse.db.DatabaseConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -17,7 +18,6 @@ import java.text.ParseException;
 public class NewClass {
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, ParseException {
-        String  s = String.format("%.0f", new Double("8645.123"));
-        System.out.println(s);
+        DatabaseConnection.getConnection();
     }
 }

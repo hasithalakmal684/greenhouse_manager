@@ -47,11 +47,11 @@ public class GreenHouse extends Thread {
      * @throws javax.swing.UnsupportedLookAndFeelException
      */
     public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException {
-//        URL url = ClassLoader.getSystemResource(".\\src\\greenhouse\\images\\app.png");
+//        URL url = ClassLoader.getSystemResource(".\\images\\app.png");
 //        Toolkit kit = Toolkit.getDefaultToolkit();
 //        app_icon = kit.createImage(url);
         
-        app_icon = ImageIO.read(new File(".\\src\\greenhouse\\images\\app.png")).getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+        app_icon = ImageIO.read(new File(".\\images\\app.png")).getScaledInstance(24, 24, Image.SCALE_SMOOTH);
         
         UIManager.setLookAndFeel(new AcrylLookAndFeel());
         GreenHouse gh = new GreenHouse();

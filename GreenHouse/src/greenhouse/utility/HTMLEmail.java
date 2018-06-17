@@ -23,7 +23,7 @@ public class HTMLEmail {
     private final Properties prop;
 
     public HTMLEmail() throws FileNotFoundException, IOException {
-        input = new FileInputStream(".\\src\\greenhouse\\resources\\email.properties");
+        input = new FileInputStream(".\\resources\\email.properties");
         prop = new Properties();
         prop.load(input);
     }

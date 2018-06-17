@@ -52,16 +52,16 @@ public class UpdatePasswordForm extends javax.swing.JDialog {
 
         resendEmailButton.setEnabled(false);
         try {
-            showPassword = ImageIO.read(new File(".\\src\\greenhouse\\images\\show_password.png"));
+            showPassword = ImageIO.read(new File(".\\images\\show_password.png"));
             showPasswordIcon = new ImageIcon(showPassword.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
-            hidePassword = ImageIO.read(new File(".\\src\\greenhouse\\images\\show_password.png"));
+            hidePassword = ImageIO.read(new File(".\\images\\hide_password.png"));
             hidePasswordIcon = new ImageIcon(hidePassword.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
-            correctImg = ImageIO.read(new File(".\\src\\greenhouse\\images\\correct.gif"));
+            correctImg = ImageIO.read(new File(".\\images\\correct.gif"));
             correctIcon = new ImageIcon(correctImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
-            wrongImg = ImageIO.read(new File(".\\src\\greenhouse\\images\\wrong.png"));
+            wrongImg = ImageIO.read(new File(".\\images\\wrong.png"));
             wrongIcon = new ImageIcon(wrongImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
             showPasswordCheckBox.setIcon(showPasswordIcon);
