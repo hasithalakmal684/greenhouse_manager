@@ -29,8 +29,12 @@ public class DataDAO {
     public static synchronized Data getSummarizedDataForGH(String gh) throws ClassNotFoundException, IOException, SQLException {
         Calendar instance = Calendar.getInstance();
         Date dateTime = instance.getTime();
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateTime);
+        int minute = c.get(Calendar.MINUTE) - 5;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd H:");
+        System.out.println(sdf.format(dateTime)+minute);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 
         conn = DatabaseConnection.getConnection();
         conn.setAutoCommit(true);
@@ -43,7 +47,7 @@ public class DataDAO {
                 + "FROM data "
                 + "WHERE dat_id IN( "
                 + "    SELECT dat_id FROM data "
-                + "    WHERE dat_logtime LIKE '" + sdf.format(dateTime) + "%' "
+                + "    WHERE dat_logtime > '" + sdf.format(dateTime)+minute + "%' "
                 + "    AND "
                 + "	dev_id IN( "
                 + "        SELECT dev_id "
@@ -89,7 +93,7 @@ public class DataDAO {
                 + "WHERE d.ip_addr='" + ip_addr + "'";
 
         int res = DatabaseHandler.setData(conn, sql);
-        if(res>0){
+        if (res > 0) {
             DatabaseHandler.setData(remoteConn, sql);
         }
 

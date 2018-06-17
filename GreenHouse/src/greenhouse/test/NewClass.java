@@ -5,6 +5,7 @@
  */
 package greenhouse.test;
 
+import greenhouse.dao.DataDAO;
 import greenhouse.db.DatabaseConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,6 +19,6 @@ import java.text.ParseException;
 public class NewClass {
 
     public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, ParseException {
-        DatabaseConnection.getConnection();
+        DataDAO.getSummarizedDataForGH("enim");
     }
 }

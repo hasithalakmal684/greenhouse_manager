@@ -24,15 +24,17 @@ import greenhouse.utility.GHChart;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -50,26 +53,21 @@ import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.StandardXYItemLabelGenerator;
-import org.jfree.chart.labels.XYItemLabelGenerator;
-import org.jfree.chart.labels.XYSeriesLabelGenerator;
 import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.time.Day;
 import org.jfree.data.time.Minute;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
-import org.jfree.data.xy.XYDataset;
 
 /**
  *
  * @author Hasitha Lakmal
  */
-public class MainForm extends javax.swing.JFrame {
+public class MainForm extends javax.swing.JFrame implements ActionListener {
 
     TimeSeries tempDataSeries;
     TimeSeries lightDataSeries;
@@ -95,6 +93,9 @@ public class MainForm extends javax.swing.JFrame {
         try {
             initComponents();
             setIconImage(GreenHouse.app_icon);
+
+            Timer t = new Timer(15000, this);
+            t.start();
 
             //reset components
             ghComboBox.removeAllItems();
@@ -1912,7 +1913,7 @@ public class MainForm extends javax.swing.JFrame {
         renderer.setSeriesPaint(4, Color.ORANGE);
         renderer.setSeriesPaint(5, Color.BLACK);
         rangeAxis.setAutoRangeIncludesZero(false);
-        
+
         LegendItemCollection legendItemCollection = new LegendItemCollection();
         LegendItem tempLegend = new LegendItem("Temperature", Color.RED);
         LegendItem lightLegend = new LegendItem("Light", Color.YELLOW);
@@ -1920,14 +1921,14 @@ public class MainForm extends javax.swing.JFrame {
         LegendItem phLegend = new LegendItem("PH", Color.GREEN);
         LegendItem pressureLegend = new LegendItem("Pressure", Color.ORANGE);
         LegendItem soilMLegend = new LegendItem("Soil Moisture", Color.BLACK);
-        
+
         legendItemCollection.add(tempLegend);
         legendItemCollection.add(lightLegend);
         legendItemCollection.add(humidityLegend);
         legendItemCollection.add(phLegend);
         legendItemCollection.add(pressureLegend);
         legendItemCollection.add(soilMLegend);
-        
+
         mainPlot.setFixedLegendItems(legendItemCollection);
         renderer.setBaseItemLabelsVisible(true);
 
@@ -2148,4 +2149,43 @@ public class MainForm extends javax.swing.JFrame {
     public static javax.swing.JLabel userLabel;
     private javax.swing.JButton viewDataButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            Data d = DataDAO.getSummarizedDataForGH((String) ghSummaryComboBox.getSelectedItem());
+            int temp = Integer.parseInt(d.getTemperature());
+            if (temp > 35) {
+                String command = "Q;192.169.1.7;1111;P";
+                System.out.println("Command : " + command);
+
+                InputStream in = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
+                SerialPort port = SerialPortConnection.getConnection();
+                SerialWriter serialWriter = new SerialWriter(port.getOutputStream());
+                serialWriter.setInputStream(in);
+                serialWriter.run();
+            }
+            tempTextField.setText(d.getTemperature());
+            lightTextField.setText(d.getLight());
+            pressureTextField.setText(d.getPressure());
+            humidityTextField.setText(d.getHumidity());
+            phTextField.setText(d.getPh());
+            soilMoistureTextField.setText(d.getSoilMoisture());
+
+            tempTextField.setBackground(getTexFiledBackground(Integer.parseInt(d.getTemperature())));
+            lightTextField.setBackground(getTexFiledBackground(Integer.parseInt(d.getLight())));
+            pressureTextField.setBackground(getTexFiledBackground(Integer.parseInt(d.getPressure())));
+            humidityTextField.setBackground(getTexFiledBackground(Integer.parseInt(d.getHumidity())));
+            phTextField.setBackground(getTexFiledBackground(Integer.parseInt(d.getPh())));
+            soilMoistureTextField.setBackground(getTexFiledBackground(Integer.parseInt(d.getSoilMoisture())));
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
